@@ -62,14 +62,14 @@
                                 </div>
                             </div>
                             <div class="col-md-4 border-left">
-                                <img src="{{url('frontend/images/ic_language.')}}png" alt="Icon" class="features-image">
+                                <img src="{{url('frontend/images/ic_language.png')}}" alt="Icon" class="features-image">
                                 <div class="description">
                                     <h3>Language</h3>
                                     <p>English</p>
                                 </div>
                             </div>
                             <div class="col-md-4 border-left">
-                                <img src="{{url('frontend/images/ic_food.png"')}} alt="Icon" class="features-image">
+                                <img src="{{url('frontend/images/ic_food.png')}}" alt="Icon" class="features-image">
                                 <div class="description">
                                     <h3>Food</h3>
                                     <p>Chilli Crab</p>
