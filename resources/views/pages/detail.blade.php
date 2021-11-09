@@ -25,54 +25,48 @@
             <div class="row">
                 <div class="col-lg-8 pl-lg-0">
                     <div class="card card-details">
-                        <h1>Supertree Grove</h1>
-                        <p>Singapore</p>
+                        <h1>{{$item->title}}</h1>
+                        <p>{{$item->location}}</p>
+                        @if ($item->galleries->count())
                         <div class="gallery">
                             <div class="xzoom-container">
-                                <img src="{{url('frontend/images/gambar-details.jpg')}}" class="xzoom" id="xzoom-default" xoriginal="frontend/images/gambar-details.jpg">
+                                <img src="{{Storage::url($item->galleries->first()->image)}}" class="xzoom" id="xzoom-default" 
+                                xoriginal="{{Storage::url($item->galleries->first()->image)}}">
                             </div>
                             <div class="xzoom-thumbs">
-                                <a href="{{url('frontend/images/gambar-details.jpg')}}">
-                                    <img src="{{url('frontend/images/thumbnails-1.jpg')}}" class="xzoom-gallery" width="128" height="76" xpreview="frontend/images/thumbnails-1.jpg">
+                            @foreach ($item->galleries as $gallery)
+                               <a href="{{Storage::url(($gallery->image))}}">
+                                    <img src="{{Storage::url(($gallery->image))}}" class="xzoom-gallery" width="128" height="76" 
+                                    xpreview="{{Storage::url(($gallery->image))}}">
                                 </a>
-                                <a href="{{url('frontend/images/gambar-details.jpg')}}">
-                                    <img src="{{url('frontend/images/thumbnails-2.jpg')}}" class="xzoom-gallery" width="120" height="76" xpreview="frontend/images/thumbnails-2.jpg">
-                                </a>
-                                <a href="{{url('frontend/images/gambar-details.jpg')}}">
-                                    <img src="{{url('frontend/images/thumbnails-3.jpg')}}" class="xzoom-gallery" width="128" height="76" xpreview="frontend/images/thumbnails-3.jpg">
-                                </a>
-                                <a href="{{url('frontend/images/gambar-details.jpg')}}">
-                                    <img src="{{url('frontend/images/thumbnails-4.jpg')}}" class="xzoom-gallery" width="128" height="76" xpreview="frontend/images/thumbnails-4.jpg">
-                                </a>
-                                <a href="{{url('frontend/images/gambar-details.jpg')}}">
-                                    <img src="{{url('frontend/images/thumbnails-5.jpg')}}" class="xzoom-gallery" width="128" height="76" xpreview="frontend/images/thumbnails-5.jpg">
-                                </a>
+                            @endforeach
                             </div>
                         </div>
+                        @endif
                         <h2>Tentang Wisata</h2>
-                        <p>Gardens by the Bay was part of the nation's plans to transform its "Garden City" to a "City in a Garden", with the aim of raising the quality of life by enhancing greenery and flora in the city. First announced by Prime Minister
-                            Lee Hsien Loong at Singapore's National Day Rally in 2005, Gardens by the Bay was intended to be Singapore's premier urban outdoor recreation space and a national icon.
+                        <p>
+                            {!! $item->about !!}
                         </p>
                         <div class="features row">
                             <div class="col-md-4">
                                 <img src="{{url('frontend/images/ic_event.png')}}" alt="Icon" class="features-image">
                                 <div class="description">
                                     <h3>Featured Event</h3>
-                                    <p>Night Forest</p>
+                                    <p>{{$item->featured_event}}</p>
                                 </div>
                             </div>
                             <div class="col-md-4 border-left">
                                 <img src="{{url('frontend/images/ic_language.png')}}" alt="Icon" class="features-image">
                                 <div class="description">
                                     <h3>Language</h3>
-                                    <p>English</p>
+                                    <p>{{$item->language}}</p>
                                 </div>
                             </div>
                             <div class="col-md-4 border-left">
                                 <img src="{{url('frontend/images/ic_food.png')}}" alt="Icon" class="features-image">
                                 <div class="description">
                                     <h3>Food</h3>
-                                    <p>Chilli Crab</p>
+                                    <p>{{$item->foods}}</p>
                                 </div>
                             </div>
                         </div>
@@ -94,33 +88,43 @@
                             <tr>
                                 <th width="50%">Date of Departures</th>
                                 <td width="50%" class="text-right">
-                                    22 Aug, 2019
+                                    {{\Carbon\Carbon::create($item->date_of_departure)->format('F n, Y')}}
                                 </td>
                             </tr>
                             <tr>
                                 <th width="50%">Duration</th>
                                 <td width="50%" class="text-right">
-                                    4D 3N
+                                    {{$item->duration}}
                                 </td>
                             </tr>
                             <tr>
                                 <th width="50%">Type</th>
                                 <td width="50%" class="text-right">
-                                    Open Trip
+                                    {{$item->type}}
                                 </td>
                             </tr>
                             <tr>
                                 <th width="50%">Price</th>
                                 <td width="50%" class="text-right">
-                                    $80,00 / Person
+                                    ${{$item->price}},00 / Person
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="join-container">
-                        <a href="{{route('checkout')}}" class="btn btn-block btn-join-now mt-3 py-2">
-                            Join Now
-                        </a>
+                        @auth
+                            <form action="{{route('checkout_process',$item->id)}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-block btn-join-now mt-3 py-2">
+                                Join Now
+                            </button>
+                            </form>
+                        @endauth
+                        @guest
+                            <a href="{{route('login')}}" class="btn btn-block btn-join-now mt-3 py-2">
+                                Login or Register to Join
+                            </a>
+                        @endguest
                     </div>
                 </div>
             </div>
