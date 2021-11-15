@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    Reset Password - Nomads    
+    Reset Password - Nomads   
 @endsection
+
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
